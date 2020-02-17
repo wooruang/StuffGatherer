@@ -7,7 +7,9 @@ class DataSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'title',
-            'description',
+            'category',
+            'sub_category',
+            'origin',
             'content',
         )
         model = Data
