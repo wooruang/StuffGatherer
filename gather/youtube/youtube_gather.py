@@ -29,18 +29,16 @@ class YoutubeGather(Gather):
         self.resolution = kwargs[self.ARG_RESOLUTION] if self.ARG_RESOLUTION in kwargs else 'highest'
         self.subtype = kwargs[self.ARG_SUBTYPE] if self.ARG_SUBTYPE in kwargs else 'mp4'
         self.audio = kwargs[self.ARG_AUDIO] if self.ARG_AUDIO in kwargs else False
+        self.stream = self.select()
 
-    def streams(self):
-        return self.tube.streams
-
-    def download(self, output_path=None):
-        """Download youtube's media."""
+    def select(self):
         stream = None
         if self.video and self.audio:
             if self.resolution == 'highest':
                 stream = self.tube.streams.get_highest_resolution()
             else:
-                stream = self.tube.streams.filter(progressive=True, subtype=self.subtype, resolution=self.resolution) \
+                stream = self.tube.streams.filter(progressive=True, subtype=self.subtype,
+                                                  resolution=self.resolution) \
                     .first()
         elif self.video:
             if self.resolution == 'highest':
@@ -52,6 +50,15 @@ class YoutubeGather(Gather):
                     .first()
         else:
             stream = self.tube.streams.filter(adaptive=True, only_audio=self.audio).first()
+        return stream
 
-        print(stream)
-        return stream.download(output_path=output_path)
+    def streams(self):
+        return self.tube.streams
+
+    def download(self, output_path=None):
+        """Download youtube's media."""
+        print(self.stream)
+        return self.stream.download(output_path=output_path)
+
+    def default_file_name(self):
+        return self.stream.default_filename
