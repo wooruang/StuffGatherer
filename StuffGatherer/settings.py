@@ -130,3 +130,8 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:3000'
 ]
+
+# Celery
+CELERY_BROKER_URL = "amqp://localhost"
+CELERY_RESULT_BACKEND = "rpc://"
+
