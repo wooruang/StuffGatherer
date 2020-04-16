@@ -6,7 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
+import Title from './component/Title';
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -29,13 +29,19 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  absolute: {
+    // position: 'left'
+    // right: theme.spacing(3),
+  },
 }));
 
 export default function Orders() {
   const classes = useStyles();
+
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title count={4}>Recent Orders</Title>
+      
       <Table size="small">
         <TableHead>
           <TableRow>
