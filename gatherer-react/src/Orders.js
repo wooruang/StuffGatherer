@@ -22,6 +22,11 @@ const rows = [
   createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
 ];
 
+const dialogOkButtonText = "Add"
+const dialogCancelButtonText = "Cancel"
+const dialogContentText = "Please input a url to download a video."
+const dialogInputLabel = "URL"
+
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -41,6 +46,13 @@ export default function Orders() {
   const classes = useStyles();
 
   const [openAddDialog, setOpenAddDialog] = React.useState(false);
+  const [addText, setAddText] = React.useState("");
+
+  const onInputChange = t => {
+    console.log("onInputChange")
+    console.log(t)
+    setAddText(t)
+  }
 
   const handleClickOpenAddDialog = () => {
     setOpenAddDialog(true);
@@ -50,10 +62,22 @@ export default function Orders() {
     setOpenAddDialog(false);
   };
 
+  const handleOk = () => {
+    console.log("test handleOk " + addText) 
+  }
+
   return (
     <React.Fragment>
       <Title count={4} onAddButtonClick={handleClickOpenAddDialog}>Recent Orders</Title>
-      <FormDialog open={openAddDialog} handleClose={handleCloseAddDialog}></FormDialog>
+      <FormDialog
+        open={openAddDialog}
+        handleClose={handleCloseAddDialog}
+        okButtonText={dialogOkButtonText}
+        cancelButtonText={dialogCancelButtonText}
+        contentText={dialogContentText}
+        inputLabel={dialogInputLabel}
+        onTextChange={onInputChange}
+        handleOk={handleOk}></FormDialog>
 
       <Table size="small">
         <TableHead>
