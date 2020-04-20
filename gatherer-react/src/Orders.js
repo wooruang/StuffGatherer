@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './component/Title';
+import FormDialog from './component/dialogs/FormDialog';
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -35,13 +36,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function Orders() {
   const classes = useStyles();
 
+  const [openAddDialog, setOpenAddDialog] = React.useState(false);
+
+  const handleClickOpenAddDialog = () => {
+    setOpenAddDialog(true);
+  };
+
+  const handleCloseAddDialog = () => {
+    setOpenAddDialog(false);
+  };
+
   return (
     <React.Fragment>
-      <Title count={4}>Recent Orders</Title>
-      
+      <Title count={4} onAddButtonClick={handleClickOpenAddDialog}>Recent Orders</Title>
+      <FormDialog open={openAddDialog} handleClose={handleCloseAddDialog}></FormDialog>
+
       <Table size="small">
         <TableHead>
           <TableRow>

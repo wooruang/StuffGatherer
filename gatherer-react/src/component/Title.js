@@ -30,7 +30,7 @@ export default function Title(props) {
         </Typography>
       </Grid>
       <Grid item xs={1}>
-        <AddButton className={classes.addButton}></AddButton>
+        <AddButton className={classes.addButton} onClick={props.onAddButtonClick}></AddButton>
       </Grid>
     </Grid>
   );
