@@ -8,23 +8,20 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
+ interface FormDialogProps {
+   open: boolean,
+   handleClose: () => void,
+   contentText: String,
+   inputLabel: String,
+   okButtonText: String,
+   cancelButtonText: String,
+   onTextChange: (t: String) => void,
+   handleOk: () => void
+ }
 
-/**
- * 
- * * props.
- * - open 
- * - handleClose
- * - contentText
- * - inputLbael
- * - okButtonText
- * - cancelButtonText
- * - onTextChange
- * - handleOk
- * 
- */
-export default function FormDialog(props) {
+const FormDialog: React.FC<FormDialogProps> = (props) => {
 
-  const onInputChange = e => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onTextChange(e.target.value);
   }
 
@@ -55,3 +52,5 @@ export default function FormDialog(props) {
       </Dialog>
   );
 }
+
+export default FormDialog;
