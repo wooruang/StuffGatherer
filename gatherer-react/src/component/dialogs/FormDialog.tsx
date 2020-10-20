@@ -11,11 +11,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
  interface FormDialogProps {
    open: boolean,
    handleClose: () => void,
-   contentText: String,
-   inputLabel: String,
-   okButtonText: String,
-   cancelButtonText: String,
-   onTextChange: (t: String) => void,
+   contentText: string,
+   inputLabel: string,
+   okButtonText: string,
+   cancelButtonText: string,
+   onTextChange: (t: string) => void,
    handleOk: () => void
  }
 

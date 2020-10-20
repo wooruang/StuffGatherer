@@ -8,6 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './component/Title';
 import FormDialog from './component/dialogs/FormDialog';
+import {from} from 'rxjs';
+import {map} from 'rxjs/operators';
+import axios, { AxiosPromise } from 'axios';
+
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -63,7 +67,17 @@ export default function Orders() {
   };
 
   const handleOk = () => {
-    console.log("test handleOk " + addText) 
+    
+    console.log("test handleOk1 " + addText); 
+    const a = axios.get("https://httpbin.org/get");
+    console.log("test handleOk2 " + a); 
+    a.then((response) => {
+      const user = response.data.data;
+      console.log("aaaa" + response);
+      console.log("bbbb" + response.data);
+    });
+
+    from(a).pipe(map(x => x.data)).subscribe(console.log)
   }
 
   return (
