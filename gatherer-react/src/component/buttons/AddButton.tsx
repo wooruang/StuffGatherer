@@ -6,7 +6,7 @@ interface AddButtonProps {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const AddButton: React.SFC<AddButtonProps> = (props) => {
+const AddButton: React.FC<AddButtonProps> = (props) => {
   return (
     <Button onClick={props.onClick} ><Icon color="primary">add_circle</Icon></Button>
   );
