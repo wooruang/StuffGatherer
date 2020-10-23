@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'gatherer',
+    'datasets',
     'rest_framework',
     'corsheaders',
 ]
@@ -127,11 +128,18 @@ STATIC_URL = '/static/'
 
 
 # Cors
-CORS_ORIGIN_WHITELIST = [
-    'https://localhost:3000'
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:8000'
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Celery
-CELERY_BROKER_URL = "amqp://localhost"
-CELERY_RESULT_BACKEND = "rpc://"
+# CELERY_BROKER_URL = "amqp://localhost"
+# CELERY_RESULT_BACKEND = "rpc://"
+
+# Datasets
+# Dataset root.
+DATASETS_ROOT_PATH = '/Users/hansaemlee/Documents/temp'
+DATASETS_CACHE_PATH = '.cache'
 
