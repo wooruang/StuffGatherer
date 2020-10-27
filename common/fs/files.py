@@ -2,7 +2,9 @@ import os
 import datetime
 import base64
 import stat
+import chardet
 from .file_info import FileInfo, Capabilities, todict
+
 
 
 def get_info(root, path='/'):
@@ -77,6 +79,7 @@ def add_firt_segment(p):
         return '/'
     return p if p[0] == '/' else '/' + p
 
+
 def remove_last_segment(p):
     if p is None or len(p) == 0:
         return ''
@@ -99,6 +102,21 @@ def remove_file(path):
 
 
 # TODO: below functions divide from this script.
+
+
+def encode_base64b(b):
+    '''
+    Convert a string to bytes of base64.
+    '''
+    return base64.urlsafe_b64encode(b)
+
+
+def decode_base64b(b):
+    '''
+    Convert a string to bytes of base64.
+    '''
+    return base64.urlsafe_b64decode(b)
+
 
 def encode_base64(s):
     '''
@@ -130,6 +148,19 @@ def decode_base64s(s):
     '''
     b = decode_base64(s)
     return str(b, encoding='utf-8')
+
+
+def get_extension(p):
+    return p.split('.')[-1]
+
+
+def replace_extension(p, ext):
+    tokens = p.split('.')
+    tokens[-1] = ext
+    return '.'.join(tokens)
+
+def find_character_set(raw):
+    return chardet.detect(raw)['encoding']
 
 
 if __name__ == "__main__":

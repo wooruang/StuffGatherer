@@ -12,6 +12,8 @@ import urllib
 
 from common.fs import files, ziplib
 from common.string import random
+from common.image.annotation import annotation
+from common.image import image
 from core import paths
 
 
@@ -24,22 +26,51 @@ class Download(View):
         if len(items) == 0:
             return HttpResponse(status=400)
         elif len(items) == 1:
-            return self.makeFileResponse(root, items[0])
+            annotation = request.GET.get('annotype')
+            if annotation:
+                return self.makeFileResponseWithAnnotation(root, items[0], annotation)
+            else:
+                return self.makeFileResponse(root, items[0])
         else:
             temp_file_name = random.get_random_string(10) + '.zip'
             return self.zipFile(temp_file_name, root, items)
 
     @staticmethod
     def makeFileResponse(root, item):
-        print(item.encode())
-        print(len(item.encode()))
         path = files.decode_base64s(item)
 
         root, path, file_url = files.merge_root_and_path(root, path)
         filename = os.path.basename(path)
 
-        print(file_url)
+        # print(file_url)
         if os.path.exists(file_url):
+            with open(file_url, 'rb') as fh:
+                quote_file_url = urllib.parse.quote(filename.encode('utf-8'))
+                response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+                response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
+                return response
+        raise Http404
+
+    @staticmethod
+    def makeFileResponseWithAnnotation(root, item, annoType):
+        path = files.decode_base64s(item)
+        root, path, file_url = files.merge_root_and_path(root, path)
+        filename = os.path.basename(path)
+        
+        # print(file_url)
+
+        anno_url = files.replace_extension(file_url, 'json')
+
+        if os.path.exists(anno_url):
+            img = annotation.readAndDrawImageByAnnotationWithCoco(file_url, anno_url)
+            img_ext = files.get_extension(file_url)
+            ret, img_buf = image.encode_image(img, img_ext)
+            quote_file_url = urllib.parse.quote(filename.encode('utf-8'))
+            response = HttpResponse(img_buf.tostring(), content_type=mimetypes.guess_type(file_url)[0])
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
+            return response
+
+        elif os.path.exists(file_url):
             with open(file_url, 'rb') as fh:
                 quote_file_url = urllib.parse.quote(filename.encode('utf-8'))
                 response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
