@@ -40,7 +40,7 @@ const SFileManager: React.FC<SFileManagerProps> = (props) => {
             if (clickEvent.rowData.type !== 'dir') {
               // alert(`${clickEvent.event}, ${clickEvent.number}, ${clickEvent.rowData}`);
               console.log(clickEvent.event, clickEvent.number, clickEvent.rowData);
-              setViewerSource(`${apiOptions['apiRoot']}/download?items=${clickEvent.rowData.id}`);
+              setViewerSource(`${apiOptions['apiRoot']}/download?annotype=json&items=${clickEvent.rowData.id}`);
               setViewerFileName(clickEvent.rowData.name);
               setOpenViewerDialog(true);
             }
